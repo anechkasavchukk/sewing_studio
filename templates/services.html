@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELENIKO | Послуги та ціни</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#F9F8F6', 
+                            accent: '#C4B7A6', 
+                            dark: '#2A2725', 
+                            gold: '#8E7B61'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F9F8F6;
+            color: #2A2725;
+            scroll-behavior: smooth;
+        }
+        /* Стиль для активного пункту бокового меню */
+        .sidebar-link.active {
+            border-left-color: #8E7B61;
+            color: #2A2725;
+            background-color: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Навігація -->
+    <nav class="fixed w-full z-50 bg-brand-light/90 backdrop-blur-md border-b border-brand-gray transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Логотип -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <i data-lucide="scissors" class="h-6 w-6 text-brand-gold"></i>
+                    <span class="font-serif text-2xl tracking-widest font-semibold uppercase">eleniko</span>
+                </div>
+                
+                <!-- Меню (Desktop) -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-sm uppercase tracking-widest text-brand-dark hover:text-brand-gold transition-colors">Про ательє</a>
+                    <a href="#upcycling" class="text-sm uppercase tracking-widest text-brand-gold font-medium flex items-center gap-1">
+                        <i data-lucide="leaf" class="w-4 h-4"></i> Апсайклінг
+                    </a>
+                    <a href="/services" class="text-sm uppercase tracking-widest text-brand-dark hover:text-brand-gold transition-colors">Послуги та ціни</a>
+                    <a href="#contacts" class="text-sm uppercase tracking-widest text-brand-dark hover:text-brand-gold transition-colors">Контакти</a>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="/cabinet" class="text-sm uppercase tracking-widest hover:text-brand-gold transition-colors flex items-center gap-2">
+                        <i data-lucide="user" class="w-4 h-4"></i> Кабінет
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Шапка сторінки -->
+    <header class="pt-40 pb-16 bg-white border-b border-brand-accent/20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+            <span class="text-brand-gold uppercase tracking-[0.2em] text-sm font-semibold mb-4 block">Детальний прайс-лист</span>
+            <h1 class="font-serif text-4xl lg:text-6xl text-brand-dark mb-6">Наші послуги</h1>
+            <p class="text-lg text-brand-dark/70 font-light max-w-2xl mx-auto">
+                Ознайомтеся з повним переліком послуг нашої майстерні. Кінцева вартість може змінюватися залежно від складності крою та специфіки тканини.
+            </p>
+        </div>
+    </header>
+
+    <!-- Основний контент: Бокове меню + Списки послуг -->
+    <main class="max-w-7xl mx-auto px-6 lg:px-12 py-20 flex flex-col lg:flex-row gap-16 relative">
+        
+        <!-- Бокова навігація (Sticky) -->
+        <aside class="lg:w-1/4 hidden lg:block">
+            <div class="sticky top-32 bg-brand-light/50 p-6 border border-brand-accent/20">
+                <h3 class="font-serif text-xl text-brand-dark mb-6">Категорії послуг</h3>
+                <nav class="space-y-1">
+                    <a href="#repair" class="sidebar-link active block px-4 py-3 border-l-2 border-brand-gold text-brand-dark font-medium bg-white transition-all">Дрібний ремонт</a>
+                    <a href="#fitting" class="sidebar-link block px-4 py-3 border-l-2 border-transparent text-gray-500 hover:text-brand-dark hover:border-brand-accent transition-all">Складна підгонка</a>
+                    <a href="#tailoring" class="sidebar-link block px-4 py-3 border-l-2 border-transparent text-gray-500 hover:text-brand-dark hover:border-brand-accent transition-all">Індивідуальне пошиття</a>
+                    <a href="#home-textile" class="sidebar-link block px-4 py-3 border-l-2 border-transparent text-gray-500 hover:text-brand-dark hover:border-brand-accent transition-all">Домашній текстиль</a>
+                </nav>
+
+                <div class="mt-8 pt-6 border-t border-brand-accent/20">
+                    <p class="text-xs text-gray-500 font-light leading-relaxed mb-4">
+                        Не знайшли потрібної послуги? Ми виконуємо роботи будь-якої складності.
+                    </p>
+                    <button class="w-full bg-brand-dark text-white py-3 text-xs font-medium tracking-widest hover:bg-brand-gold transition-colors">
+                        ОТРИМАТИ КОНСУЛЬТАЦІЮ
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Списки послуг -->
+        <div class="lg:w-3/4">
+            
+            <!-- 1. Дрібний ремонт -->
+            <section id="repair" class="mb-24 scroll-mt-32">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-14 h-14 bg-white border border-brand-accent/30 rounded-full flex items-center justify-center text-brand-gold shrink-0">
+                        <i data-lucide="scissors" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif text-3xl text-brand-dark">Дрібний ремонт</h2>
+                        <p class="text-gray-500 font-light mt-1">Швидке та якісне відновлення улюблених речей</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Заміна потайної блискавки (сукня, спідниця)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 200 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Заміна блискавки в джинсах/брюках</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 250 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Заміна блискавки (куртки, пальта)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 400 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Вкорочення низу (брюки, спідниці)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 200 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Вкорочення джинсів зі збереженням фабричного шва</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 250 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Художня штопка (розриви, потертості)</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Оцінюється за кожен сантиметр</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 150 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Заміна мішковини кишені (1 шт)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 180 ₴</span>
+                    </div>
+                    <!-- Item -->
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Встановлення ґудзиків, кнопок, гачків</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 50 ₴</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Складна підгонка -->
+            <section id="fitting" class="mb-24 scroll-mt-32">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-14 h-14 bg-white border border-brand-accent/30 rounded-full flex items-center justify-center text-brand-gold shrink-0">
+                        <i data-lucide="ruler" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif text-3xl text-brand-dark">Складна підгонка по фігурі</h2>
+                        <p class="text-gray-500 font-light mt-1">Доведення вашого одягу до ідеалу з урахуванням анатомії</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Ушивання брюк/спідниці в талії</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 350 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Підгонка піджака по бокових швах</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 600 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Зміна довжини рукава піджака (зі шліцою)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 550 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Корекція лінії плеча (зменшення)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 600 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Повна заміна підкладки (спідниця/брюки)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 450 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Повна заміна підкладки (піджак/пальто)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 1200 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Підгонка весільної/вечірньої сукні</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Корсет, складний низ, робота з мереживом</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 1500 ₴</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Індивідуальне пошиття -->
+            <section id="tailoring" class="mb-24 scroll-mt-32">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-14 h-14 bg-white border border-brand-accent/30 rounded-full flex items-center justify-center text-brand-gold shrink-0">
+                        <i data-lucide="shirt" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif text-3xl text-brand-dark">Індивідуальне пошиття</h2>
+                        <p class="text-gray-500 font-light mt-1">Ціни вказані лише за роботу (без вартості матеріалів)</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 border border-brand-accent/20 shadow-sm mb-8">
+                    <p class="text-sm text-brand-dark/80 font-light mb-0">
+                        <i data-lucide="info" class="w-4 h-4 inline-block mr-1 text-brand-gold"></i>
+                        Процес пошиття включає зняття мірок, побудову індивідуального лекала та 2-3 примірки для забезпечення ідеальної посадки.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Спідниця (базовий фасон)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 1200 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Брюки (класичні, палаццо)</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 1800 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Блуза / Сорочка</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 1500 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Сукня повсякденна</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 2500 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Сукня вечірня / корсетна</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 4500 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Жакет / Піджак на підкладці</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 3500 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Пальто демісезонне</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 5500 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Пошиття за вашим фото / ескізом</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">+20%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Домашній текстиль -->
+            <section id="home-textile" class="mb-10 scroll-mt-32">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-14 h-14 bg-white border border-brand-accent/30 rounded-full flex items-center justify-center text-brand-gold shrink-0">
+                        <i data-lucide="sofa" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif text-3xl text-brand-dark">Домашній текстиль</h2>
+                        <p class="text-gray-500 font-light mt-1">Оновлення інтер'єру та створення затишку</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Пошиття прямих штор та тюлю</span>
+                            <span class="text-xs text-gray-400 mt-1 block">За 1 метр строчки</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 50 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Пришивання шторної тасьми</span>
+                            <span class="text-xs text-gray-400 mt-1 block">За 1 метр</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 60 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Вкорочення готових штор</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 250 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Пошиття постільної білизни</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Двоспальний комплект</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 900 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Декоративна наволочка</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 200 ₴</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-accent/20 pb-3 group">
+                        <div>
+                            <span class="font-medium text-brand-dark text-base block group-hover:text-brand-gold transition-colors">Заміна блискавки у меблевих чохлах</span>
+                        </div>
+                        <span class="font-serif text-lg text-brand-gold whitespace-nowrap ml-4">від 300 ₴</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Банер запису (CTA) -->
+    <section class="bg-brand-dark py-20 mt-10">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="font-serif text-3xl lg:text-4xl text-white mb-6">Готові довірити нам свої речі?</h2>
+            <p class="text-brand-accent/80 font-light mb-10 max-w-xl mx-auto">
+                Зареєструйтеся в особистому кабінеті, щоб записатися на примірку без черг, або зателефонуйте нашому менеджеру.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="bg-brand-gold text-white px-8 py-4 text-sm font-medium tracking-wide hover:bg-white hover:text-brand-dark transition-colors">
+                    ЗАПИСАТИСЯ ЧЕРЕЗ КАБІНЕТ
+                </a>
+                <a href="#contacts" class="border border-brand-accent text-white px-8 py-4 text-sm font-medium tracking-wide hover:bg-brand-accent hover:text-brand-dark transition-colors">
+                    ЗВ'ЯЗАТИСЯ З НАМИ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер (скорочений для внутрішньої сторінки) -->
+    <footer class="bg-brand-dark text-brand-light py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Бренд -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i data-lucide="scissors" class="h-6 w-6 text-brand-gold"></i>
+                        <span class="font-serif text-2xl tracking-widest font-semibold uppercase">eleniko</span>
+                    </div>
+                    <p class="text-brand-light/60 font-light text-sm max-w-sm leading-relaxed mb-6">
+                        Ексклюзивна кравецька майстерня, де створюється одяг з історією. Індивідуальне пошиття, бездоганний ремонт та свідомий апсайклінг.
+                    </p>
+                    <!-- Соцмережі -->
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-brand-light/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-brand-light/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all">
+                            <i data-lucide="facebook" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-brand-light/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Швидкі посилання -->
+                <div>
+                    <h4 class="text-sm uppercase tracking-widest font-semibold mb-6 text-brand-gold">Навігація</h4>
+                    <ul class="space-y-3 text-brand-light/70 font-light text-sm">
+                        <li><a href="#about" class="hover:text-white transition-colors">Про ательє</a></li>
+                        <li><a href="#upcycling" class="hover:text-white transition-colors">Апсайклінг</a></li>
+                        <li><a href="#calculator" class="hover:text-white transition-colors">Калькулятор вартості</a></li>
+                        <li><a href="#contacts" class="hover:text-white transition-colors">Контакти</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Кабінет клієнта</a></li>
+                    </ul>
+                </div>
+
+                <!-- Документи -->
+                <div>
+                    <h4 class="text-sm uppercase tracking-widest font-semibold mb-6 text-brand-gold">Клієнтам</h4>
+                    <ul class="space-y-3 text-brand-light/70 font-light text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Договір оферти</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Політика конфіденційності</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Правила примірок</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Гарантія якості</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Копірайт -->
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-brand-light/40 text-xs font-light">© 2026 Eleniko Studio. Усі права захищено.</p>
+                <p class="text-brand-light/40 text-xs font-light">Розроблено як інформаційна система (Курсовий проєкт).</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Ініціалізація іконок
+        lucide.createIcons();
+
+        // Простий скрипт для підсвічування активного пункту бокового меню при скролі
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.sidebar-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current) && current !== '') {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

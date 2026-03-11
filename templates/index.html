@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELENIKO | Майстерня з пошиття та ремонту одягу</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1A1A1A',
+                            light: '#FDFBF7',
+                            gold: '#C5A880',
+                            accent: '#8E7B61',
+                            gray: '#E5E0D8'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .image-placeholder {
+            background-color: #E5E0D8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8E7B61;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-brand-light text-brand-dark antialiased selection:bg-brand-gold selection:text-white">
+
+    <!-- Навігація -->
+    <nav class="fixed w-full z-50 bg-brand-light/90 backdrop-blur-md border-b border-brand-gray transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Логотип -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <i data-lucide="scissors" class="h-6 w-6 text-brand-gold"></i>
+                    <span class="font-serif text-2xl tracking-widest font-semibold uppercase">eleniko</span>
+                </div>
+                
+                <!-- Меню (Desktop) -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-sm uppercase tracking-widest text-brand-dark hover:text-brand-gold transition-colors">Про ательє</a>
+                    <a href="#upcycling" class="text-sm uppercase tracking-widest text-brand-gold font-medium flex items-center gap-1">
+                        <i data-lucide="leaf" class="w-4 h-4"></i> Апсайклінг
+                    </a>
+                    <a href="/services" class="text-sm uppercase tracking-widest text-brand-dark hover:text-brand-gold transition-colors">Послуги та ціни</a>
+                    <a href="#contacts" class="text-sm uppercase tracking-widest text-brand-dark hover:text-brand-gold transition-colors">Контакти</a>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="/cabinet" class="text-sm uppercase tracking-widest hover:text-brand-gold transition-colors flex items-center gap-2">
+                        <i data-lucide="user" class="w-4 h-4"></i> Кабінет
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Головний екран (Hero) -->
+    <section class="pt-32 pb-20 lg:pt-48 lg:pb-32 px-4 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2 z-10">
+                <p class="text-brand-gold uppercase tracking-[0.3em] text-xs font-semibold mb-6">Майстерня пошиття та ремонту одягу</p>
+                <h1 class="font-serif text-5xl lg:text-7xl leading-tight mb-8">
+                    Створюємо одяг, <br>що підкреслює <span class="italic text-brand-accent">вашу</span> унікальність
+                </h1>
+                <p class="text-lg text-gray-600 mb-10 max-w-lg font-light leading-relaxed">
+                    Від ідеально скроєного ділового костюма до екологічного переосмислення ваших старих речей (апсайклінг). Бездоганна якість у кожному стібку.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#calculator" class="bg-brand-dark text-white px-8 py-4 text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors text-center">Розрахувати вартість</a>
+                    <a href="#about" class="border border-brand-dark text-brand-dark px-8 py-4 text-sm uppercase tracking-widest hover:bg-brand-dark hover:text-white transition-colors text-center">Дізнатися більше</a>
+                </div>
+            </div>
+            
+            <div class="lg:w-1/2 relative">
+                <div class="w-full h-[600px] bg-brand-gray relative overflow-hidden image-placeholder">
+                    
+                </div>
+                <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-brand-gold/10 -z-10"></div>
+                <div class="absolute -top-6 -right-6 w-32 h-32 border border-brand-gold/30 -z-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Про ательє -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2 grid grid-cols-2 gap-4">
+                    <div class="h-64 image-placeholder mt-8"></div>
+                    <div class="h-64 image-placeholder"></div>
+                </div>
+                <div class="lg:w-1/2">
+                    <h2 class="font-serif text-4xl mb-6">Про ательє <span class="italic text-brand-accent">eleniko</span></h2>
+                    <p class="text-gray-600 mb-6 font-light leading-relaxed">
+                        Ми — сучасна кравецька майстерня, яка поєднує класичні традиції кравецького мистецтва з інноваційним підходом до сталого розвитку. Наша мета — створювати речі, які живуть поза швидкими трендами.
+                    </p>
+                    <p class="text-gray-600 mb-8 font-light leading-relaxed">
+                        Кожен виріб, створений в стінах "eleniko", проходить суворий контроль якості. Ми працюємо лише з преміальними тканинами та фурнітурою, а завдяки цифровій CRM-системі зберігаємо електронні лекала та мірки кожного клієнта для швидкого повторного замовлення.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-8 border-t border-brand-gray pt-8">
+                        <div>
+                            <p class="text-3xl font-serif text-brand-gold mb-2">10+</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-widest">Років досвіду</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-serif text-brand-gold mb-2">1500+</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-widest">Задоволених клієнтів</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Апсайклінг -->
+    <section id="upcycling" class="py-0 bg-brand-dark flex flex-col lg:flex-row overflow-hidden">
+        <div class="lg:w-1/2 p-12 lg:p-24 flex flex-col justify-center relative z-10">
+            <i data-lucide="leaf" class="absolute top-10 right-10 w-48 h-48 text-white/5 -rotate-12 pointer-events-none"></i>
+            
+            <span class="text-brand-gold uppercase tracking-[0.2em] text-sm font-semibold mb-6 flex items-center gap-2">
+                <span class="w-8 h-px bg-brand-gold"></span> 
+                Sustainable Fashion
+            </span>
+            
+            <h2 class="font-serif text-4xl lg:text-5xl text-brand-light mb-8 leading-tight">
+                Апсайклінг: <br>Нове життя <span class="text-brand-gold italic">улюблених</span> речей
+            </h2>
+            
+            <p class="text-lg text-brand-accent/90 font-light leading-relaxed mb-6">
+                Не викидайте якісні тканини. Вінтажне пальто, чоловічий піджак оверсайз або стара весільна сукня можуть стати основою для створення абсолютно нового, сучасного та унікального гардеробу.
+            </p>
+            
+            <ul class="space-y-4 mb-10 text-brand-light/80 font-light text-sm">
+                <li class="flex items-start gap-3">
+                    <i data-lucide="check" class="w-5 h-5 text-brand-gold shrink-0"></i>
+                    Перетворення чоловічих костюмів на стильні жіночі корсети.
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="check" class="w-5 h-5 text-brand-gold shrink-0"></i>
+                    Повна зміна фасону застарілих курток та плащів.
+                </li>
+            </ul>
+        </div>
+        <div class="lg:w-1/2 h-[500px] lg:h-auto relative image-placeholder group bg-zinc-800">
+            
+        </div>
+    </section>
+
+    <!-- Онл -->
+    <section id="calculator" class="py-24 bg-brand-gray/30">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl mb-4">Онлайн-калькулятор</h2>
+                <p class="text-gray-600 font-light">Сконструюйте своє замовлення та дізнайтеся орієнтовну вартість.</p>
+            </div>
+
+            <div class="bg-white p-8 lg:p-12 shadow-sm border border-brand-gray">
+                <form id="calcForm" class="space-y-8">
+                    <!-- Крок 1 -->
+                    <div>
+                        <label class="block text-sm uppercase tracking-widest text-brand-dark mb-4 font-semibold">1. Оберіть тип послуги</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="service" value="tailoring" class="peer sr-only" checked onchange="calculatePrice()">
+                                <div class="p-4 border border-brand-gray text-center peer-checked:border-brand-gold peer-checked:bg-brand-gold/10 transition-all">
+                                    <i data-lucide="scissors" class="w-6 h-6 mx-auto mb-2 text-brand-accent"></i>
+                                    <span class="block text-sm font-medium">Індивідуальне пошиття</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="service" value="upcycling" class="peer sr-only" onchange="calculatePrice()">
+                                <div class="p-4 border border-brand-gray text-center peer-checked:border-brand-gold peer-checked:bg-brand-gold/10 transition-all">
+                                    <i data-lucide="leaf" class="w-6 h-6 mx-auto mb-2 text-brand-accent"></i>
+                                    <span class="block text-sm font-medium">Апсайклінг</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="service" value="repair" class="peer sr-only" onchange="calculatePrice()">
+                                <div class="p-4 border border-brand-gray text-center peer-checked:border-brand-gold peer-checked:bg-brand-gold/10 transition-all">
+                                    <i data-lucide="pen-tool" class="w-6 h-6 mx-auto mb-2 text-brand-accent"></i>
+                                    <span class="block text-sm font-medium">Ремонт одягу</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Крок 2 -->
+                        <div>
+                            <label class="block text-sm uppercase tracking-widest text-brand-dark mb-2">2. Виріб</label>
+                            <select id="itemSelect" class="w-full p-4 border border-brand-gray bg-transparent focus:outline-none focus:border-brand-gold" onchange="calculatePrice()">
+                                <option value="1500">Сукня повсякденна</option>
+                                <option value="4500">Сукня вечірня / корсетна</option>
+                                <option value="3000">Костюм (жакет + брюки)</option>
+                                <option value="1200">Брюки / Спідниця</option>
+                                <option value="3500">Пальто / Тренч</option>
+                            </select>
+                        </div>
+                        <!-- Крок 3 -->
+                        <div>
+                            <label class="block text-sm uppercase tracking-widest text-brand-dark mb-2">3. Складність тканини</label>
+                            <select id="fabricSelect" class="w-full p-4 border border-brand-gray bg-transparent focus:outline-none focus:border-brand-gold" onchange="calculatePrice()">
+                                <option value="1">Стандартна (бавовна, костюмна)</option>
+                                <option value="1.3">Складна (шовк, шифон) </option>
+                                <option value="1.5">Важка (шкіра, хутро) </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Крок 4 -->
+                    <div>
+                        <label class="block text-sm uppercase tracking-widest text-brand-dark mb-4">4. Додаткові опції</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" id="urgentCheck" class="w-5 h-5 text-brand-gold focus:ring-brand-gold border-gray-300 rounded" onchange="calculatePrice()">
+                                <span class="text-sm text-gray-700">Термінове виконання (до 3 днів) <span class="text-brand-accent italic">+50%</span></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Результат -->
+                    <div class="mt-8 pt-8 border-t border-brand-gray bg-brand-light p-6 text-center">
+                        <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Орієнтовна вартість:</p>
+                        <p class="font-serif text-5xl text-brand-dark mb-2"><span id="totalPrice">1500</span> ₴</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- НОВИЙ БЛОК: Контакти та Форма -->
+    <section id="contacts" class="py-24 bg-white border-t border-brand-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16">
+                
+                <!-- Інформація -->
+                <div class="lg:w-1/3">
+                    <p class="text-brand-gold uppercase tracking-[0.2em] text-xs font-semibold mb-4">Чекаємо на вас</p>
+                    <h2 class="font-serif text-4xl mb-8">Наші <span class="italic text-brand-accent">контакти</span></h2>
+                    
+                    <div class="space-y-8 text-gray-600 font-light">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-brand-gold"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-brand-dark mb-1">Адреса майстерні</p>
+                                <p>вул.Б.Хмельницького, 15а, м. Костопіль<br>Рівненська область, 33000</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center shrink-0">
+                                <i data-lucide="clock" class="w-5 h-5 text-brand-gold"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-brand-dark mb-1">Графік роботи</p>
+                                <p>Пн - Пт: 09:00 - 18:00<br>Сб: 11:00 - 16:00<br>Нд: Вихідний</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5 text-brand-gold"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-brand-dark mb-1">Зв'язок</p>
+                                <p class="mb-1"><a href="tel:+380501234567" class="hover:text-brand-gold transition-colors">+38 (050) 123-45-67</a></p>
+                                <p><a href="mailto:hello@eleniko.ua" class="hover:text-brand-gold transition-colors">hello@eleniko.ua</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма зворотного зв'язку -->
+                <div class="lg:w-2/3 bg-brand-gray/20 p-8 lg:p-12 relative overflow-hidden">
+                    <i data-lucide="mail" class="absolute -bottom-10 -right-10 w-64 h-64 text-white pointer-events-none opacity-50"></i>
+                    <h3 class="font-serif text-3xl mb-2 relative z-10">Залишилися питання?</h3>
+                    <p class="text-gray-500 font-light mb-8 relative z-10">Залиште свої контакти, і наш адміністратор зв'яжеться з вами протягом 15 хвилин.</p>
+                    
+                    <form class="space-y-6 relative z-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Ваше ім'я</label>
+                                <input type="text" class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm" placeholder="Анна">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Номер телефону</label>
+                                <input type="tel" class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm" placeholder="+38 (0--) --- -- --">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Коментар або питання</label>
+                            <textarea rows="3" class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm resize-none" placeholder="Хочу перешити старий піджак..."></textarea>
+                        </div>
+                        <button type="button" class="bg-brand-dark text-white px-8 py-4 text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors w-full md:w-auto shadow-lg">
+                            Надіслати запит
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- РОЗШИРЕНИЙ FOOTER -->
+    <footer class="bg-brand-dark text-brand-light py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Бренд -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i data-lucide="scissors" class="h-6 w-6 text-brand-gold"></i>
+                        <span class="font-serif text-2xl tracking-widest font-semibold uppercase">eleniko</span>
+                    </div>
+                    <p class="text-brand-light/60 font-light text-sm max-w-sm leading-relaxed mb-6">
+                        Ексклюзивна кравецька майстерня, де створюється одяг з історією. Індивідуальне пошиття, бездоганний ремонт та свідомий апсайклінг.
+                    </p>
+                    <!-- Соцмережі -->
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-brand-light/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-brand-light/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all">
+                            <i data-lucide="facebook" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-brand-light/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Швидкі посилання -->
+                <div>
+                    <h4 class="text-sm uppercase tracking-widest font-semibold mb-6 text-brand-gold">Навігація</h4>
+                    <ul class="space-y-3 text-brand-light/70 font-light text-sm">
+                        <li><a href="#about" class="hover:text-white transition-colors">Про ательє</a></li>
+                        <li><a href="#upcycling" class="hover:text-white transition-colors">Апсайклінг</a></li>
+                        <li><a href="#calculator" class="hover:text-white transition-colors">Калькулятор вартості</a></li>
+                        <li><a href="#contacts" class="hover:text-white transition-colors">Контакти</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Кабінет клієнта</a></li>
+                    </ul>
+                </div>
+
+                <!-- Документи -->
+                <div>
+                    <h4 class="text-sm uppercase tracking-widest font-semibold mb-6 text-brand-gold">Клієнтам</h4>
+                    <ul class="space-y-3 text-brand-light/70 font-light text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Договір оферти</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Політика конфіденційності</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Правила примірок</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Гарантія якості</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Копірайт -->
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-brand-light/40 text-xs font-light">© 2026 Eleniko Studio. Усі права захищено.</p>
+                <p class="text-brand-light/40 text-xs font-light">Розроблено як інформаційна система (Курсовий проєкт).</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ініціалізація іконок та Логіка Калькулятора -->
+    <script>
+        lucide.createIcons();
+
+        function calculatePrice() {
+            const itemSelect = document.getElementById('itemSelect');
+            let basePrice = parseFloat(itemSelect.value);
+
+            const serviceType = document.querySelector('input[name="service"]:checked').value;
+            if (serviceType === 'repair') {
+                basePrice = basePrice * 0.3; 
+            } else if (serviceType === 'upcycling') {
+                basePrice = basePrice * 1.2; 
+            }
+
+            const fabricMultiplier = parseFloat(document.getElementById('fabricSelect').value);
+            let total = basePrice * fabricMultiplier;
+
+            const isUrgent = document.getElementById('urgentCheck').checked;
+            if (isUrgent) {
+                total = total * 1.5;
+            }
+
+            document.getElementById('totalPrice').innerText = Math.round(total).toLocaleString('uk-UA');
+        }
+
+        calculatePrice();
+    </script>
+</body>
+</html>
