@@ -95,13 +95,18 @@
                 </div>
             </div>
             
-            <div class="lg:w-1/2 relative">
-                <div class="w-full h-[600px] bg-brand-gray relative overflow-hidden image-placeholder">
-                    
-                </div>
-                <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-brand-gold/10 -z-10"></div>
-                <div class="absolute -top-6 -right-6 w-32 h-32 border border-brand-gold/30 -z-10"></div>
-            </div>
+           <div class="lg:w-1/2 relative">
+    <div class="w-full h-[600px] relative overflow-hidden shadow-2xl rounded-sm">
+        <img src="{{ url_for('static', filename='images/hero.jpg') }}" 
+             alt="Процес шиття в ательє eleniko" 
+             class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+        
+        <div class="absolute inset-0 bg-black/5"></div>
+    </div>
+
+    <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-brand-gold/10 -z-10"></div>
+    <div class="absolute -top-6 -right-6 w-32 h-32 border border-brand-gold/30 -z-10"></div>
+</div>
         </div>
     </section>
 
@@ -110,9 +115,18 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row gap-16 items-center">
                 <div class="lg:w-1/2 grid grid-cols-2 gap-4">
-                    <div class="h-64 image-placeholder mt-8"></div>
-                    <div class="h-64 image-placeholder"></div>
-                </div>
+    <div class="h-64 overflow-hidden rounded-sm shadow-lg mt-8">
+        <img src="{{ url_for('static', filename='images/ph1.jpg') }}" 
+             alt="Майстриня за роботою" 
+             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+    </div>
+    
+    <div class="h-64 overflow-hidden rounded-sm shadow-lg">
+        <img src="{{ url_for('static', filename='images/ph2.jpg') }}" 
+             alt="Деталі пошиття" 
+             class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+    </div>
+</div>
                 <div class="lg:w-1/2">
                     <h2 class="font-serif text-4xl mb-6">Про ательє <span class="italic text-brand-accent">eleniko</span></h2>
                     <p class="text-gray-600 mb-6 font-light leading-relaxed">
@@ -166,9 +180,13 @@
                 </li>
             </ul>
         </div>
-        <div class="lg:w-1/2 h-[500px] lg:h-auto relative image-placeholder group bg-zinc-800">
-            
-        </div>
+       <div class="lg:w-1/2 relative h-[500px] lg:h-auto overflow-hidden">
+    <img src="{{ url_for('static', filename='images/apcycling.jpg') }}" 
+         alt="Стильний апсайклінг костюм" 
+         class="w-full h-full object-cover">
+    
+    <div class="absolute inset-y-0 left-0 w-1 bg-brand-gold/30"></div>
+</div>
     </section>
 
     <!-- Онл -->
