@@ -10,8 +10,8 @@ app.secret_key = 'super_secret_key_eleniko_2026'
 # Налаштування підключення до Бази Даних
 db_config = {
     'host': '127.0.0.1',
-    'user': 'root',          # логін у Workbench 
-    'password': 'Ann_savchuk13!',  # пароль від бази 
+    'user': 'root',         
+    'password': 'Ann_savchuk13!',  
     'database': 'sewing_studio' 
 }
 
@@ -64,8 +64,8 @@ def logout():
 @app.route('/admin')
 def admin_crm():
     if not session.get('admin_logged_in'):
-        return redirect(url_for('login')) # Якщо ні - женемо на сторінку входу
-    return render_template('crm.html') # Змінив на crm.html, як ми робили в дизайні
+        return redirect(url_for('login')) 
+    return render_template('crm.html') 
 
 # --- Тестовий маршрут БД ---
 @app.route('/api/test-db')
@@ -73,7 +73,7 @@ def test_db():
     try:
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Customer;") # Змінив Employees на Customer (бо в базі у нас Customer)
+        cursor.execute("SELECT * FROM Customer;") 
         data = cursor.fetchall()
         cursor.close()
         connection.close()
