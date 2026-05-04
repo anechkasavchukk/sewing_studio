@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELENIKO CRM | Панель управління</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display & Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Додаємо Chart.js для графіків -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
@@ -34,34 +31,38 @@
     </script>
     <style>
         body {
-            background-color: #F8F7F5; /* Легкий контраст до білих карток */
+            background-color: #F8F7F5; 
             color: #1A1A1A;
         }
         .sidebar-item:hover, .sidebar-item.active {
-            background-color: rgba(197, 168, 128, 0.1); /* brand-gold з прозорістю */
+            background-color: rgba(197, 168, 128, 0.1); 
             color: #C5A880;
             border-left-color: #C5A880;
         }
-        /* Кастомний скроллбар */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #E5E0D8; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #C5A880; }
+        
+        /* Анімація успішного оновлення статусу */
+        .status-success {
+            border-color: #22c55e !important;
+            background-color: #f0fdf4 !important;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body class="font-sans antialiased h-screen flex overflow-hidden selection:bg-brand-gold selection:text-white">
 
-    <!-- Бокове меню (Sidebar) - Темне -->
-    <aside class="w-64 bg-brand-dark text-brand-light flex flex-col justify-between hidden lg:flex z-20 shrink-0 shadow-2xl">
-        <div>
-            <!-- Логотип -->
-            <div class="h-20 flex items-center justify-center border-b border-white/10 gap-2">
+    <aside class="w-64 bg-brand-dark text-brand-light flex flex-col hidden lg:flex z-20 shrink-0 shadow-2xl h-screen">
+        
+        <div class="flex-1 overflow-y-auto">
+            <div class="h-20 flex items-center justify-center border-b border-white/10 gap-2 shrink-0">
                 <i data-lucide="scissors" class="h-6 w-6 text-brand-gold"></i>
                 <h1 class="font-serif text-2xl tracking-widest font-semibold uppercase">eleniko</h1>
                 <span class="text-[10px] text-brand-dark bg-brand-gold px-1.5 py-0.5 rounded uppercase font-bold tracking-wider ml-1">CRM</span>
             </div>
             
-            <!-- Навігація -->
             <nav class="py-6 flex flex-col gap-1">
                 <p class="text-[10px] tracking-widest text-brand-gold/60 uppercase mb-3 ml-6 font-semibold">Головне</p>
                 
@@ -69,62 +70,58 @@
                     <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                     <span class="font-medium text-sm tracking-wide">Дашборд</span>
                 </a>
-                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
-                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                    <span class="font-medium text-sm tracking-wide">Замовлення</span>
-                    <span class="ml-auto bg-brand-gold text-brand-dark font-bold text-[10px] px-2 py-0.5 rounded-full">12</span>
-                </a>
-                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
-                    <i data-lucide="users" class="w-5 h-5"></i>
-                    <span class="font-medium text-sm tracking-wide">Клієнти</span>
-                </a>
-                
-                <p class="text-[10px] tracking-widest text-brand-gold/60 uppercase mt-6 mb-3 ml-6 font-semibold">Управління</p>
-                
-                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
-                    <i data-lucide="package" class="w-5 h-5"></i>
-                    <span class="font-medium text-sm tracking-wide">Склад (Матеріали)</span>
-                </a>
-                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
-                    <i data-lucide="contact" class="w-5 h-5"></i>
-                    <span class="font-medium text-sm tracking-wide">Персонал</span>
-                </a>
-                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
-                    <i data-lucide="tag" class="w-5 h-5"></i>
-                    <span class="font-medium text-sm tracking-wide">Прайс-лист</span>
-                </a>
-
-                <p class="text-[10px] tracking-widest text-brand-gold/60 uppercase mt-6 mb-3 ml-6 font-semibold">Аналітика</p>
-                
-                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                 <a href="{{ url_for('admin_reports') }}" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
                     <i data-lucide="pie-chart" class="w-5 h-5"></i>
                     <span class="font-medium text-sm tracking-wide">Звіти</span>
                 </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Замовлення(in progress)</span>
+                    <span class="ml-auto bg-brand-gold text-brand-dark font-bold text-[10px] px-2 py-0.5 rounded-full">{{ orders|length }}</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Клієнти(in progress)</span>
+                </a>
+                
+                <p class="text-[10px] tracking-widest text-brand-gold/60 uppercase mt-6 mb-3 ml-6 font-semibold">Управління</p>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="package" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Склад (in progress)</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="contact" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Персонал (in progress)</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="tag" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Прайс-лист (in progress)</span>
+                </a>
+
+               
             </nav>
         </div>
 
-        <div class="p-6 border-t border-white/10 flex flex-col gap-4">
+        <div class="shrink-0 p-6 border-t border-white/10 flex flex-col gap-4 bg-brand-dark z-10">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-brand-dark font-serif font-bold text-lg">
-                    О
-                </div>
+                <div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-brand-dark font-serif font-bold text-lg">О</div>
                 <div>
                     <p class="text-sm font-medium text-white tracking-wide">Олена</p>
                     <p class="text-xs text-brand-gold/80">Адміністратор</p>
                 </div>
             </div>
-            <!-- Посилання на головну (Flask routing) -->
             <a href="{{ url_for('index') }}" class="mt-2 flex items-center justify-center gap-2 w-full py-2 bg-white/5 hover:bg-white/10 text-brand-gold rounded transition-colors text-sm font-medium border border-white/10">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 На сайт
             </a>
+            <a href="{{ url_for('logout') }}" class="mt-2 flex items-center justify-center gap-2 w-full py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded transition-colors text-xs font-medium border border-red-500/20">
+                Вийти з системи
+            </a>
         </div>
     </aside>
 
-    <!-- Основна робоча область -->
     <main class="flex-1 flex flex-col h-screen overflow-hidden">
         
-        <!-- Верхня панель (Header) -->
         <header class="h-20 bg-brand-light border-b border-brand-gray flex items-center justify-between px-8 shrink-0 z-10">
             <div class="flex items-center gap-4">
                 <button class="lg:hidden text-brand-dark">
@@ -137,21 +134,18 @@
             </div>
             
             <div class="flex items-center gap-6">
-                <button class="bg-brand-dark text-white px-5 py-2.5 text-sm font-medium tracking-widest uppercase hover:bg-brand-gold transition-colors flex items-center gap-2 shadow-sm">
+                <button id="openModalBtn" class="bg-brand-dark text-white px-5 py-2.5 text-sm font-medium tracking-widest uppercase hover:bg-brand-gold transition-colors flex items-center gap-2 shadow-sm">
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     Нове замовлення
                 </button>
                 
-                <!-- Дзвіночок сповіщень -->
                 <div class="relative cursor-pointer">
                     <i data-lucide="bell" class="w-6 h-6 text-brand-dark hover:text-brand-gold transition-colors"></i>
-                    <!-- Індикатор алертів (Склад) -->
                     <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-brand-light">2</span>
                 </div>
             </div>
         </header>
 
-        <!-- Контент Дашборду (Скролиться) -->
         <div class="flex-1 overflow-y-auto p-8">
             
             <div class="flex justify-between items-end mb-8">
@@ -159,110 +153,37 @@
                     <h2 class="font-serif text-3xl text-brand-dark mb-1">Огляд бізнесу</h2>
                     <p class="text-gray-500 text-sm font-light">Поточний місяць</p>
                 </div>
-                <div class="flex gap-2">
-                    <button class="px-4 py-2 bg-white border border-brand-gray text-sm font-medium hover:bg-brand-light flex items-center gap-2 text-brand-dark transition-colors">
-                        <i data-lucide="calendar" class="w-4 h-4 text-brand-gold"></i>
-                        Цей місяць
-                    </button>
-                    <button class="px-4 py-2 bg-white border border-brand-gray text-sm font-medium hover:bg-brand-light flex items-center gap-2 text-brand-dark transition-colors">
-                        <i data-lucide="download" class="w-4 h-4 text-brand-gold"></i>
-                        Експорт
-                    </button>
-                </div>
             </div>
 
-            <!-- KPI Картки (Фінансова аналітика) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Картка 1 -->
-                <div class="bg-brand-light p-6 border border-brand-gray shadow-sm flex flex-col relative overflow-hidden group">
-                    <div class="flex justify-between items-start mb-4 relative z-10">
-                        <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-white transition-colors">
-                            <i data-lucide="trending-up" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">+12.5%</span>
-                    </div>
+                <div class="bg-brand-light p-6 border border-brand-gray shadow-sm flex flex-col group">
                     <span class="text-brand-accent text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Дохід за місяць</span>
-                    <span class="font-serif text-3xl text-brand-dark font-semibold relative z-10">145 200 ₴</span>
+                    <span class="font-serif text-3xl text-brand-dark font-semibold">{{ stats.revenue }} ₴</span>
                 </div>
-
-                <!-- Картка 2 -->
                 <div class="bg-brand-light p-6 border border-brand-gray shadow-sm flex flex-col group">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-white transition-colors">
-                            <i data-lucide="receipt" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">+5.2%</span>
-                    </div>
                     <span class="text-brand-accent text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Середній чек</span>
-                    <span class="font-serif text-3xl text-brand-dark font-semibold">1 850 ₴</span>
+                    <span class="font-serif text-3xl text-brand-dark font-semibold">{{ stats.avg_check }} ₴</span>
                 </div>
-
-                <!-- Картка 3 -->
                 <div class="bg-brand-light p-6 border border-brand-gray shadow-sm flex flex-col group">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-white transition-colors">
-                            <i data-lucide="scissors" class="w-5 h-5"></i>
-                        </div>
-                        <span class="text-xs font-bold text-brand-dark bg-brand-gray/50 px-2 py-1 rounded">4 нових</span>
-                    </div>
                     <span class="text-brand-accent text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Замовлень в роботі</span>
-                    <span class="font-serif text-3xl text-brand-dark font-semibold">12</span>
+                    <span class="font-serif text-3xl text-brand-dark font-semibold">{{ stats.active_orders }}</span>
                 </div>
-
-                <!-- Картка 4 (Алерти складу) -->
-                <div class="bg-red-50 p-6 border border-red-200 shadow-sm flex flex-col relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 w-16 h-16 bg-red-600/5 rounded-bl-full"></div>
-                    <div class="flex justify-between items-start mb-4 relative z-10">
-                        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-                        </div>
-                    </div>
+                <div class="bg-red-50 p-6 border border-red-200 shadow-sm flex flex-col group">
                     <span class="text-red-700/70 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Матеріали закінчуються</span>
-                    <span class="font-serif text-3xl text-red-600 font-semibold relative z-10">2 <span class="text-lg font-sans font-normal text-red-600/70">позиції</span></span>
+                    <span class="font-serif text-3xl text-red-600 font-semibold">{{ stats.low_stock }} <span class="text-lg font-sans font-normal text-red-600/70">позиції</span></span>
                 </div>
             </div>
-
-            <!-- Графіки та Аналітика -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <!-- Графік доходів -->
-                <div class="lg:col-span-2 bg-brand-light p-6 border border-brand-gray shadow-sm">
-                    <h3 class="font-serif text-xl text-brand-dark mb-6">Динаміка доходів</h3>
-                    <div class="relative h-64 w-full">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Популярність послуг -->
-                <div class="bg-brand-light p-6 border border-brand-gray shadow-sm">
-                    <h3 class="font-serif text-xl text-brand-dark mb-6">Розподіл послуг</h3>
-                    <div class="relative h-48 w-full flex justify-center mt-4">
-                        <canvas id="servicesChart"></canvas>
-                    </div>
-                    <div class="mt-6 flex flex-col gap-3 text-sm font-light">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2"><span class="w-3 h-3 bg-brand-dark"></span> Індивідуальне пошиття</div>
-                            <span class="font-medium text-brand-dark">55%</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2"><span class="w-3 h-3 bg-brand-gold"></span> Складна підгонка</div>
-                            <span class="font-medium text-brand-dark">25%</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2"><span class="w-3 h-3 bg-brand-accent"></span> Дрібний ремонт</div>
-                            <span class="font-medium text-brand-dark">20%</span>
-                        </div>
-                    </div>
+            <div class="bg-brand-light p-6 border border-brand-gray shadow-sm mb-8">
+                <h3 class="font-serif text-xl text-brand-dark mb-6">Динаміка доходів</h3>
+                <div class="relative h-64 w-full">
+                    <canvas id="revenueChart"></canvas>
                 </div>
             </div>
-
-            <!-- Нижня секція: Замовлення та Склад -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- Останні замовлення -->
                 <div class="lg:col-span-2 bg-brand-light border border-brand-gray shadow-sm flex flex-col">
                     <div class="p-6 border-b border-brand-gray flex justify-between items-center bg-white/50">
                         <h3 class="font-serif text-xl text-brand-dark">Останні замовлення</h3>
-                        <a href="#" class="text-sm uppercase tracking-widest text-brand-gold hover:text-brand-dark transition-colors font-medium">Всі замовлення</a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
@@ -270,107 +191,67 @@
                                 <tr class="bg-brand-gray/20 text-[10px] uppercase tracking-widest text-brand-accent">
                                     <th class="px-6 py-4 font-semibold">ID</th>
                                     <th class="px-6 py-4 font-semibold">Клієнт</th>
-                                    <th class="px-6 py-4 font-semibold">Послуга</th>
                                     <th class="px-6 py-4 font-semibold">Дедлайн</th>
                                     <th class="px-6 py-4 font-semibold">Статус</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm divide-y divide-brand-gray/50">
+                                
+                                {% for order in orders %}
                                 <tr class="hover:bg-brand-gray/10 transition-colors">
-                                    <td class="px-6 py-4 font-serif font-semibold text-brand-dark">#1045</td>
-                                    <td class="px-6 py-4">
-                                        <div class="font-medium text-brand-dark">Ольга Сидоренко</div>
-                                        <div class="text-xs text-brand-accent mt-0.5">+38 067 444 55 66</div>
+                                    
+                                    <td class="px-6 py-4 font-serif font-semibold text-brand-dark">
+                                        #{{ order.order_id }}
                                     </td>
-                                    <td class="px-6 py-4 text-gray-700 font-light">Підгонка класичного костюма</td>
-                                    <td class="px-6 py-4 text-gray-700">25.02.2026</td>
+                                    
                                     <td class="px-6 py-4">
-                                        <select class="text-xs font-semibold px-2 py-1.5 bg-brand-gray/30 text-brand-dark border border-brand-gray focus:outline-none focus:border-brand-gold cursor-pointer rounded-none">
-                                            <option value="new">Прийнято</option>
-                                            <option value="progress" selected>В роботі</option>
-                                            <option value="fitting">На примірці</option>
-                                            <option value="ready">Готово</option>
+                                        <div class="font-medium text-brand-dark">{{ order.first_name }} {{ order.last_name }}</div>
+                                        <div class="text-xs text-brand-accent mt-0.5">{{ order.phone_number }}</div>
+                                    </td>
+                                    
+                                    <td class="px-6 py-4 text-gray-700 font-light">
+                                        {{ order.expected_delivery_date }}
+                                    </td>
+                                    
+                                    <td class="px-6 py-4">
+                                        <select data-order-id="{{ order.order_id }}" class="status-select text-xs font-semibold px-2 py-1.5 bg-brand-light text-brand-dark border border-brand-gray focus:outline-none focus:border-brand-gold cursor-pointer rounded-none">
+                                            <option value="New" {% if order.status == 'New' %}selected{% endif %}>Прийнято</option>
+                                            <option value="In Progress" {% if order.status == 'In Progress' %}selected{% endif %}>В роботі</option>
+                                            <option value="Fitting" {% if order.status == 'Fitting' %}selected{% endif %}>На примірці</option>
+                                            <option value="Ready" {% if order.status == 'Ready' %}selected{% endif %}>Готово до видачі</option>
+                                            <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Видано</option>
+                                            <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Скасовано</option>
                                         </select>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-brand-gray/10 transition-colors">
-                                    <td class="px-6 py-4 font-serif font-semibold text-brand-dark">#1044</td>
-                                    <td class="px-6 py-4">
-                                        <div class="font-medium text-brand-dark">Марія Коваленко</div>
-                                        <div class="text-xs text-brand-accent mt-0.5">+38 050 111 22 33</div>
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-700 font-light">Пошиття вечірньої сукні</td>
-                                    <td class="px-6 py-4 text-gray-700">05.03.2026</td>
-                                    <td class="px-6 py-4">
-                                        <select class="text-xs font-semibold px-2 py-1.5 bg-brand-gold/20 text-brand-dark border border-brand-gold/40 focus:outline-none focus:border-brand-gold cursor-pointer rounded-none">
-                                            <option value="new">Прийнято</option>
-                                            <option value="progress">В роботі</option>
-                                            <option value="fitting" selected>На примірці</option>
-                                            <option value="ready">Готово</option>
-                                        </select>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="px-6 py-8 text-center text-gray-500 font-light">
+                                        Немає активних замовлень у базі даних.
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-brand-gray/10 transition-colors">
-                                    <td class="px-6 py-4 font-serif font-semibold text-brand-dark">#1043</td>
-                                    <td class="px-6 py-4">
-                                        <div class="font-medium text-brand-dark">Ігор Мартинюк</div>
-                                        <div class="text-xs text-brand-accent mt-0.5">+38 099 123 45 67</div>
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-700 font-light">Заміна блискавки (куртка)</td>
-                                    <td class="px-6 py-4 text-red-600 font-medium">Сьогодні</td>
-                                    <td class="px-6 py-4">
-                                        <select class="text-xs font-semibold px-2 py-1.5 bg-green-50 text-green-800 border border-green-200 focus:outline-none focus:border-green-400 cursor-pointer rounded-none">
-                                            <option value="new">Прийнято</option>
-                                            <option value="progress">В роботі</option>
-                                            <option value="fitting">На примірці</option>
-                                            <option value="ready" selected>Готово до видачі</option>
-                                        </select>
-                                    </td>
-                                </tr>
+                                {% endfor %}
+
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- Сигнали Складу -->
                 <div class="bg-brand-light border border-brand-gray shadow-sm flex flex-col">
                     <div class="p-6 border-b border-brand-gray bg-white/50">
-                        <h3 class="font-serif text-xl text-brand-dark flex items-center gap-2">
-                            Критичні залишки
-                        </h3>
+                        <h3 class="font-serif text-xl text-brand-dark flex items-center gap-2">Критичні залишки</h3>
                     </div>
                     <div class="p-6 flex-1">
                         <p class="text-sm text-brand-accent mb-6 font-light">Автоматичне попередження системи про нестачу матеріалів.</p>
-                        
                         <div class="space-y-4">
-                            <!-- Alert Item -->
                             <div class="p-4 bg-white border border-red-200 flex items-start gap-4 shadow-sm border-l-4 border-l-red-500">
-                                <i data-lucide="package-minus" class="w-5 h-5 text-red-500 shrink-0 mt-0.5"></i>
                                 <div class="w-full">
                                     <p class="text-sm font-medium text-brand-dark">Блискавка потайна 50см</p>
-                                    <p class="text-xs text-gray-400 mb-2">Чорна | SKU: ZIP-050</p>
-                                    <div class="flex items-end justify-between">
+                                    <div class="flex items-end justify-between mt-2">
                                         <div>
                                             <span class="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">Залишок:</span>
                                             <span class="text-lg font-serif text-red-600 font-semibold">2 шт</span>
                                         </div>
-                                        <button class="text-xs font-semibold text-brand-dark uppercase tracking-widest hover:text-brand-gold transition-colors">Замовити</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Alert Item -->
-                            <div class="p-4 bg-white border border-red-200 flex items-start gap-4 shadow-sm border-l-4 border-l-red-500">
-                                <i data-lucide="package-minus" class="w-5 h-5 text-red-500 shrink-0 mt-0.5"></i>
-                                <div class="w-full">
-                                    <p class="text-sm font-medium text-brand-dark">Нитки армовані</p>
-                                    <p class="text-xs text-gray-400 mb-2">Чорні | SKU: THR-001</p>
-                                    <div class="flex items-end justify-between">
-                                        <div>
-                                            <span class="text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">Залишок:</span>
-                                            <span class="text-lg font-serif text-red-600 font-semibold">1 кот.</span>
-                                        </div>
-                                        <button class="text-xs font-semibold text-brand-dark uppercase tracking-widest hover:text-brand-gold transition-colors">Замовити</button>
                                     </div>
                                 </div>
                             </div>
@@ -380,86 +261,208 @@
 
             </div>
         </div>
+<div id="orderModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+            <div class="bg-brand-light w-full max-w-md p-8 shadow-2xl relative">
+                
+                <h3 class="font-serif text-2xl text-brand-dark mb-6">Оформлення замовлення</h3>
+                
+                <form action="{{ url_for('add_order') }}" method="POST" class="space-y-4">
+                    
+                   <div id="select-customer-block">
+                        <label class="block text-xs uppercase tracking-widest text-brand-accent mb-1">Клієнт</label>
+                        <div class="flex gap-2">
+                            <select id="existing_customer" name="customer_id" required class="w-full border border-brand-gray bg-white px-4 py-2 text-sm focus:border-brand-gold focus:outline-none">
+                                <option value="">-- Оберіть клієнта --</option>
+                                {% for c in customers %}
+                                    <option value="{{ c.customer_id }}">{{ c.first_name }} {{ c.last_name }} ({{ c.phone_number }})</option>
+                                {% endfor %}
+                            </select>
+                            <button type="button" onclick="toggleNewCustomer()" class="bg-brand-gray/30 border border-brand-gray px-4 text-sm font-medium hover:bg-brand-gold hover:text-white transition-colors">
+                                + Новий
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="new-customer-block" class="hidden p-4 border border-brand-gold bg-brand-gold/5 space-y-3">
+                        <div class="flex justify-between items-center border-b border-brand-gold/20 pb-2">
+                            <span class="text-xs uppercase tracking-widest text-brand-dark font-semibold">Новий профіль</span>
+                            <button type="button" onclick="toggleNewCustomer()" class="text-xs text-gray-500 hover:text-red-500 transition-colors">Скасувати</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="new_first_name" placeholder="Ім'я" class="border border-brand-gray px-3 py-2 text-sm w-full focus:border-brand-gold focus:outline-none">
+                            <input type="text" id="new_last_name" placeholder="Прізвище" class="border border-brand-gray px-3 py-2 text-sm w-full focus:border-brand-gold focus:outline-none">
+                        </div>
+                        <input type="text" id="new_phone" placeholder="Телефон (напр. 0981234567)" class="border border-brand-gray px-3 py-2 text-sm w-full focus:border-brand-gold focus:outline-none">
+                        
+                        <button type="button" onclick="saveCustomerAjax()" class="w-full bg-brand-dark text-white py-2.5 text-xs uppercase tracking-widest hover:bg-brand-gold transition-colors flex justify-center items-center gap-2">
+                            <span id="saveCustomerText">Зберегти клієнта</span>
+                            <i id="saveCustomerSpinner" data-lucide="loader-2" class="w-4 h-4 animate-spin hidden"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-brand-accent mb-1">Призначити майстра</label>
+                        <select name="employee_id" required class="w-full border border-brand-gray bg-white px-4 py-2 text-sm focus:border-brand-gold focus:outline-none">
+                            <option value="">-- Оберіть працівника --</option>
+                            {% for e in employees %}
+                                <option value="{{ e.employee_id }}">{{ e.first_name }} {{ e.last_name }} - {{ e.position }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-brand-accent mb-1">Дедлайн (Очікувана видача)</label>
+                        <input type="date" name="deadline" required class="w-full border border-brand-gray bg-white px-4 py-2 text-sm focus:border-brand-gold focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-brand-accent mb-1">Попередня вартість (₴)</label>
+                        <input type="number" name="amount" min="0" step="0.01" required placeholder="Наприклад: 1500" class="w-full border border-brand-gray bg-white px-4 py-2 text-sm focus:border-brand-gold focus:outline-none">
+                    </div>
+
+                    <div class="flex gap-4 pt-4 mt-6 border-t border-brand-gray">
+                        <button type="button" id="closeModalBtn" class="flex-1 px-4 py-2 border border-brand-gray text-brand-dark text-sm uppercase tracking-widest hover:bg-brand-gray/20 transition-colors">Скасувати</button>
+                        <button type="submit" class="flex-1 px-4 py-2 bg-brand-dark text-white text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors">Створити</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <script>
         // Ініціалізація іконок
         lucide.createIcons();
-
-        // --- Налаштування графіків Chart.js ---
-        
-        // Кольори бренду для JS
-        const brandDark = '#1A1A1A';
-        const brandGold = '#C5A880';
-        const brandAccent = '#8E7B61';
-        const fontFamily = "'Inter', sans-serif";
-        
-        // 1. Лінійний графік доходів (Revenue Chart)
-        const ctxRev = document.getElementById('revenueChart').getContext('2d');
-        new Chart(ctxRev, {
-            type: 'line',
-            data: {
-                labels: ['Вересень', 'Жовтень', 'Листопад', 'Грудень', 'Січень', 'Лютий'],
-                datasets: [{
-                    label: 'Дохід (₴)',
-                    data: [95000, 102000, 115000, 180000, 125000, 145200],
-                    borderColor: brandGold,
-                    backgroundColor: 'rgba(197, 168, 128, 0.1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: brandDark,
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
+        // ==========================================
+        // ГРАФІК ДИНАМІКИ ДОХОДІВ (Chart.js)
+        // ==========================================
+        const ctxRev = document.getElementById('revenueChart');
+        if (ctxRev) {
+            new Chart(ctxRev.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Вересень', 'Жовтень', 'Листопад', 'Грудень', 'Січень', 'Поточний місяць'],
+                    datasets: [{
+                        label: 'Дохід (₴)',
+                        data: [95000, 102000, 115000, 180000, 125000, 145200], 
+                        borderColor: '#C5A880', 
+                        backgroundColor: 'rgba(197, 168, 128, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { borderDash: [5, 5], color: '#E5E0D8' },
-                        ticks: { color: brandAccent, font: { family: fontFamily } }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: brandAccent, font: { family: fontFamily } }
-                    }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
                 }
-            }
+            });
+        }
+        // ==========================================
+        // AJAX: ДИНАМІЧНЕ ОНОВЛЕННЯ СТАТУСУ В БД
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Знаходимо всі випадаючі списки статусів
+            const statusSelects = document.querySelectorAll('.status-select');
+            
+            statusSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const orderId = this.getAttribute('data-order-id');
+                    const newStatus = this.value;
+                    const selectElement = this; // Зберігаємо посилання на сам елемент
+
+                    // Відправляємо запит на Python-сервер
+                    fetch('/update_status', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            order_id: orderId,
+                            status: newStatus
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.success) {
+                            // Якщо БД успішно оновлено, блимаємо зеленим кольором
+                            selectElement.classList.add('status-success');
+                            setTimeout(() => {
+                                selectElement.classList.remove('status-success');
+                            }, 1500);
+                        } else {
+                            alert('Помилка оновлення бази даних: ' + data.error);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Помилка з\'єднання з сервером');
+                    });
+                });
+            });
+        });
+        // Логіка модального вікна
+        const modal = document.getElementById('orderModal');
+        const openBtn = document.getElementById('openModalBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        openBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden'); // Показуємо вікно
         });
 
-        // 2. Круговий графік послуг (Services Pie Chart)
-        const ctxServ = document.getElementById('servicesChart').getContext('2d');
-        new Chart(ctxServ, {
-            type: 'doughnut',
-            data: {
-                labels: ['Індивідуальне пошиття', 'Складна підгонка', 'Дрібний ремонт'],
-                datasets: [{
-                    data: [55, 25, 20],
-                    backgroundColor: [
-                        brandDark,
-                        brandGold,
-                        brandAccent
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '75%',
-                plugins: {
-                    legend: { display: false }
-                }
+        closeBtn.addEventListener('click', () => {
+            modal.classList.add('hidden'); // Ховаємо вікно
+        });
+
+        // Закриття при кліку поза вікном (на темний фон)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
             }
         });
+        function toggleNewCustomer() {
+    const selectBlock = document.getElementById('select-customer-block');
+    const newBlock = document.getElementById('new-customer-block');
+    
+    selectBlock.classList.toggle('hidden');
+    newBlock.classList.toggle('hidden');
+}
+
+function saveCustomerAjax() {
+    const firstName = document.getElementById('new_first_name').value;
+    const lastName = document.getElementById('new_last_name').value;
+    const phone = document.getElementById('new_phone').value;
+
+    if(!firstName || !phone) {
+        alert("Будь ласка, введіть ім'я та телефон!");
+        return;
+    }
+
+    // Відправляємо дані на наш бекенд
+    fetch('/api/add_customer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ first_name: firstName, last_name: lastName, phone_number: phone })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success') {
+            // Створюємо нову опцію у випадаючому списку
+            const select = document.getElementById('existing_customer');
+            const newOption = new Option(data.full_name, data.customer_id, true, true);
+            select.add(newOption);
+            
+            // Повертаємось до вибору (де наш новий клієнт вже обраний)
+            toggleNewCustomer();
+            
+            // Очищаємо поля
+            document.getElementById('new_first_name').value = '';
+            document.getElementById('new_last_name').value = '';
+            document.getElementById('new_phone').value = '';
+        } else {
+            alert("Помилка: " + data.message);
+        }
+    });
+}
     </script>
 </body>
 </html>

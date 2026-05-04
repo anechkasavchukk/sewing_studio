@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELENIKO CRM | Аналітичні звіти</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark:   '#1A1A1A',
+                            light:  '#FDFBF7',
+                            gold:   '#C5A880',
+                            accent: '#8E7B61',
+                            gray:   '#E5E0D8'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans:  ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8F7F5; color: #1A1A1A; }
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: rgba(197, 168, 128, 0.1);
+            color: #C5A880;
+            border-left-color: #C5A880;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E5E0D8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C5A880; }
+
+        /* Анімація появи вкладок */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeIn .25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+        /* Бейджики рейтингу ABC */
+        .badge-a { background: #d1fae5; color: #065f46; }
+        .badge-b { background: #fef3c7; color: #92400e; }
+        .badge-c { background: #fee2e2; color: #991b1b; }
+
+        /* Таблиця */
+        .report-table thead th {
+            background: rgba(229, 224, 216, 0.35);
+            font-size: 10px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #8E7B61;
+            font-weight: 600;
+            padding: 14px 20px;
+            white-space: nowrap;
+        }
+        .report-table tbody td {
+            padding: 13px 20px;
+            border-bottom: 1px solid rgba(229, 224, 216, 0.6);
+            font-size: 13.5px;
+        }
+        .report-table tbody tr:last-child td { border-bottom: none; }
+        .report-table tbody tr:hover td { background: rgba(197, 168, 128, 0.05); }
+    </style>
+</head>
+<body class="font-sans antialiased h-screen flex overflow-hidden selection:bg-brand-gold selection:text-white">
+
+    <!-- ======== БОКОВА ПАНЕЛЬ ======== -->
+    <aside class="w-64 bg-brand-dark text-brand-light flex flex-col hidden lg:flex z-20 shrink-0 shadow-2xl h-screen">
+
+        <div class="flex-1 overflow-y-auto">
+            <div class="h-20 flex items-center justify-center border-b border-white/10 gap-2 shrink-0">
+                <i data-lucide="scissors" class="h-6 w-6 text-brand-gold"></i>
+                <h1 class="font-serif text-2xl tracking-widest font-semibold uppercase">eleniko</h1>
+                <span class="text-[10px] text-brand-dark bg-brand-gold px-1.5 py-0.5 rounded uppercase font-bold tracking-wider ml-1">CRM</span>
+            </div>
+
+            <nav class="py-6 flex flex-col gap-1">
+                <p class="text-[10px] tracking-widest text-brand-gold/60 uppercase mb-3 ml-6 font-semibold">Головне</p>
+
+                <a href="{{ url_for('admin_crm') }}" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Дашборд</span>
+                </a>
+                 <a href="{{ url_for('admin_reports') }}" class="sidebar-item active flex items-center gap-3 px-6 py-3 border-l-4 border-brand-gold bg-brand-gold/10 transition-all text-brand-gold">
+                    <i data-lucide="pie-chart" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Звіти</span>
+                </a>
+                <a href="{{ url_for('admin_crm') }}" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Замовлення (in progress)</span>
+                </a>
+                <a href="{{ url_for('admin_crm') }}" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Клієнти (in progress)</span>
+                </a>
+
+                <p class="text-[10px] tracking-widest text-brand-gold/60 uppercase mt-6 mb-3 ml-6 font-semibold">Управління</p>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="package" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Склад (in progress)</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="contact" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Персонал(in progress)</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-6 py-3 border-l-4 border-transparent transition-all text-white/70">
+                    <i data-lucide="tag" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm tracking-wide">Прайс-лист(in progress)</span>
+                </a>
+               
+            </nav>
+        </div>
+
+        <div class="shrink-0 p-6 border-t border-white/10 flex flex-col gap-4 bg-brand-dark">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-brand-dark font-serif font-bold text-lg">О</div>
+                <div>
+                    <p class="text-sm font-medium text-white tracking-wide">Олена</p>
+                    <p class="text-xs text-brand-gold/80">Адміністратор</p>
+                </div>
+            </div>
+            <a href="{{ url_for('index') }}" class="flex items-center justify-center gap-2 w-full py-2 bg-white/5 hover:bg-white/10 text-brand-gold rounded transition-colors text-sm font-medium border border-white/10">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> На сайт
+            </a>
+            <a href="{{ url_for('logout') }}" class="flex items-center justify-center gap-2 w-full py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded transition-colors text-xs font-medium border border-red-500/20">
+                Вийти з системи
+            </a>
+        </div>
+    </aside>
+
+    <!-- ======== ОСНОВНИЙ КОНТЕНТ ======== -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
+
+        <!-- Шапка -->
+        <header class="h-20 bg-brand-light border-b border-brand-gray flex items-center justify-between px-8 shrink-0 z-10">
+            <div class="flex items-center gap-3">
+                <i data-lucide="pie-chart" class="w-5 h-5 text-brand-gold"></i>
+                <div>
+                    <h2 class="font-serif text-xl text-brand-dark leading-tight">Аналітичні звіти</h2>
+                    <p class="text-xs text-gray-400 font-light tracking-wide">Дані у реальному часі з бази даних</p>
+                </div>
+            </div>
+            <a href="{{ url_for('admin_crm') }}" class="flex items-center gap-2 text-sm text-brand-accent hover:text-brand-dark transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Назад до дашборду
+            </a>
+        </header>
+
+        <!-- Вміст сторінки -->
+        <div class="flex-1 overflow-y-auto p-8">
+
+            <!-- Вкладки-навігація -->
+            <div class="flex flex-wrap gap-2 mb-8 border-b border-brand-gray pb-0">
+                <button onclick="switchTab('services')"   id="tab-services"   class="tab-btn active-tab px-5 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 border-brand-gold text-brand-dark -mb-px transition-all">
+                    ABC-аналіз послуг
+                </button>
+                <button onclick="switchTab('staff')"      id="tab-staff"      class="tab-btn px-5 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 border-transparent text-gray-400 -mb-px hover:text-brand-dark transition-all">
+                    KPI персоналу
+                </button>
+                <button onclick="switchTab('debts')"      id="tab-debts"      class="tab-btn px-5 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 border-transparent text-gray-400 -mb-px hover:text-brand-dark transition-all">
+                    Заборгованості
+                </button>
+                <button onclick="switchTab('vip')"        id="tab-vip"        class="tab-btn px-5 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 border-transparent text-gray-400 -mb-px hover:text-brand-dark transition-all">
+                    VIP-клієнти
+                </button>
+                <button onclick="switchTab('inventory')"  id="tab-inventory"  class="tab-btn px-5 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 border-transparent text-gray-400 -mb-px hover:text-brand-dark transition-all">
+                    Склад
+                </button>
+            </div>
+
+            <!-- ====== ВКЛАДКА 1: ABC-АНАЛІЗ ПОСЛУГ ====== -->
+            <div id="panel-services" class="tab-panel active">
+                <div class="bg-brand-light border border-brand-gray shadow-sm mb-6">
+                    <div class="p-6 border-b border-brand-gray bg-white/50 flex items-start justify-between">
+                        <div>
+                            <h3 class="font-serif text-xl text-brand-dark">Рейтинг популярності та рентабельності послуг</h3>
+                            <p class="text-xs text-brand-accent mt-1 font-light">ABC-аналіз: A — лідери доходу, B — середня група, C — аутсайдери</p>
+                        </div>
+                        <span class="text-[10px] bg-brand-gold/20 text-brand-accent px-3 py-1 uppercase tracking-widest font-semibold">SQL: JOIN + GROUP BY</span>
+                    </div>
+
+                    <!-- Міні-графік -->
+                    <div class="p-6 border-b border-brand-gray bg-white/30">
+                        <p class="text-xs uppercase tracking-widest text-brand-accent font-semibold mb-4">Дохід по послугах (₴)</p>
+                        <div class="relative h-48">
+                            <canvas id="servicesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="report-table w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Категорія ABC</th>
+                                    <th>Назва послуги</th>
+                                    <th class="text-right">Замовлень</th>
+                                    <th class="text-right">Сер. ціна (₴)</th>
+                                    <th class="text-right">Дохід (₴)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in services_report %}
+                                <tr>
+                                    <td class="font-serif font-semibold text-brand-dark">{{ loop.index }}</td>
+                                    <td>
+                                        {% if loop.index <= (services_report | length * 0.2) | int + 1 %}
+                                            <span class="badge-a text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">A</span>
+                                        {% elif loop.index <= (services_report | length * 0.5) | int + 1 %}
+                                            <span class="badge-b text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">B</span>
+                                        {% else %}
+                                            <span class="badge-c text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">C</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="font-medium text-brand-dark">{{ row.service_name }}</td>
+                                    <td class="text-right text-gray-600">{{ row.total_orders }}</td>
+                                    <td class="text-right text-gray-600">{{ row.avg_price }}</td>
+                                    <td class="text-right font-serif font-semibold text-brand-dark">
+                                        {{ '{:,.0f}'.format(row.total_revenue).replace(',', ' ') }}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="6" class="text-center text-gray-400 py-8 font-light italic">Дані відсутні</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== ВКЛАДКА 2: KPI ПЕРСОНАЛУ ====== -->
+            <div id="panel-staff" class="tab-panel">
+                <div class="bg-brand-light border border-brand-gray shadow-sm mb-6">
+                    <div class="p-6 border-b border-brand-gray bg-white/50 flex items-start justify-between">
+                        <div>
+                            <h3 class="font-serif text-xl text-brand-dark">Статистика продуктивності персоналу</h3>
+                            <p class="text-xs text-brand-accent mt-1 font-light">База для розрахунку відрядної заробітної плати та преміювання</p>
+                        </div>
+                        <span class="text-[10px] bg-brand-gold/20 text-brand-accent px-3 py-1 uppercase tracking-widest font-semibold">SQL: LEFT JOIN + GROUP BY</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="report-table w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th>Майстер</th>
+                                    <th>Посада</th>
+                                    <th class="text-right">Закрито замовлень</th>
+                                    <th class="text-right">Сума робіт (₴)</th>
+                                    <th class="text-right">Нарахована з/п (₴)</th>
+                                    <th class="text-center">Ефективність</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set max_orders = staff_report | map(attribute='closed_orders') | max | default(1) %}
+                                {% for row in staff_report %}
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-accent font-serif font-bold text-sm shrink-0">
+                                                {{ row.first_name[0] }}
+                                            </div>
+                                            <span class="font-medium text-brand-dark">{{ row.first_name }} {{ row.last_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-gray-500 font-light">{{ row.position }}</td>
+                                    <td class="text-right font-semibold text-brand-dark">{{ row.closed_orders }}</td>
+                                    <td class="text-right text-gray-600">
+                                        {{ '{:,.0f}'.format(row.total_sum or 0).replace(',', ' ') }}
+                                    </td>
+                                    <td class="text-right font-serif font-semibold text-brand-dark">
+                                        {{ '{:,.0f}'.format(row.calculated_salary or 0).replace(',', ' ') }}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="w-full bg-brand-gray rounded-full h-1.5 mx-auto max-w-[80px]">
+                                            <div class="bg-brand-gold h-1.5 rounded-full"
+                                                 style="width: {{ ((row.closed_orders / max_orders) * 100) | round | int }}%"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="6" class="text-center text-gray-400 py-8 font-light italic">Дані відсутні</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== ВКЛАДКА 3: ЗАБОРГОВАНОСТІ ====== -->
+            <div id="panel-debts" class="tab-panel">
+                <div class="bg-brand-light border border-brand-gray shadow-sm mb-6">
+                    <div class="p-6 border-b border-brand-gray bg-white/50 flex items-start justify-between">
+                        <div>
+                            <h3 class="font-serif text-xl text-brand-dark">Контроль заборгованостей клієнтів</h3>
+                            <p class="text-xs text-brand-accent mt-1 font-light">Клієнти, сума оплат яких менша за вартість замовлення</p>
+                        </div>
+                        <span class="text-[10px] bg-brand-gold/20 text-brand-accent px-3 py-1 uppercase tracking-widest font-semibold">SQL: LEFT JOIN + HAVING</span>
+                    </div>
+
+                    {% if debts_report %}
+                    <!-- Підсумкова картка -->
+                    <div class="p-6 border-b border-brand-gray bg-red-50/40 flex items-center gap-6">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-red-500"></i>
+                            <span class="text-sm font-medium text-red-700">Загальний борг:</span>
+                            <span class="font-serif text-xl text-red-600 font-semibold">
+                                {{ '{:,.0f}'.format(debts_report | sum(attribute='debt')).replace(',', ' ') }} ₴
+                            </span>
+                        </div>
+                        <div class="text-xs text-red-500/70">{{ debts_report | length }} замовлень з непогашеним боргом</div>
+                    </div>
+                    {% endif %}
+
+                    <div class="overflow-x-auto">
+                        <table class="report-table w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th>Клієнт</th>
+                                    <th>Телефон</th>
+                                    <th class="text-right">Замовлення №</th>
+                                    <th class="text-right">Сума (₴)</th>
+                                    <th class="text-right">Оплачено (₴)</th>
+                                    <th class="text-right">Борг (₴)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in debts_report %}
+                                <tr>
+                                    <td class="font-medium text-brand-dark">{{ row.first_name }} {{ row.last_name }}</td>
+                                    <td class="text-gray-500 font-light text-sm">{{ row.phone_number }}</td>
+                                    <td class="text-right font-serif font-semibold">#{{ row.order_id }}</td>
+                                    <td class="text-right text-gray-600">{{ '{:,.0f}'.format(row.total_amount).replace(',', ' ') }}</td>
+                                    <td class="text-right text-green-600">{{ '{:,.0f}'.format(row.paid).replace(',', ' ') }}</td>
+                                    <td class="text-right">
+                                        <span class="font-serif font-bold text-red-600">
+                                            {{ '{:,.0f}'.format(row.debt).replace(',', ' ') }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-10">
+                                        <div class="flex flex-col items-center gap-2 text-green-600">
+                                            <i data-lucide="check-circle" class="w-8 h-8"></i>
+                                            <span class="text-sm font-medium">Заборгованостей немає — усі замовлення оплачені</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== ВКЛАДКА 4: VIP-КЛІЄНТИ ====== -->
+            <div id="panel-vip" class="tab-panel">
+                <div class="bg-brand-light border border-brand-gray shadow-sm mb-6">
+                    <div class="p-6 border-b border-brand-gray bg-white/50 flex items-start justify-between">
+                        <div>
+                            <h3 class="font-serif text-xl text-brand-dark">Виявлення VIP-клієнтів</h3>
+                            <p class="text-xs text-brand-accent mt-1 font-light">Клієнти, чиї витрати перевищують середній чек по ательє</p>
+                        </div>
+                        <span class="text-[10px] bg-brand-gold/20 text-brand-accent px-3 py-1 uppercase tracking-widest font-semibold">SQL: CTE (WITH)</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="report-table w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th>Рейтинг</th>
+                                    <th>Клієнт</th>
+                                    <th>Телефон</th>
+                                    <th class="text-right">Замовлень</th>
+                                    <th class="text-right">Витрачено (₴)</th>
+                                    <th class="text-center">Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in vip_report %}
+                                <tr>
+                                    <td>
+                                        {% if loop.index == 1 %}
+                                            <span class="font-serif text-brand-gold text-lg">①</span>
+                                        {% elif loop.index == 2 %}
+                                            <span class="font-serif text-gray-400 text-lg">②</span>
+                                        {% elif loop.index == 3 %}
+                                            <span class="font-serif text-amber-700 text-lg">③</span>
+                                        {% else %}
+                                            <span class="text-gray-400 text-sm pl-1">{{ loop.index }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-accent font-serif font-bold text-sm shrink-0">
+                                                {{ row.first_name[0] }}
+                                            </div>
+                                            <span class="font-medium text-brand-dark">{{ row.first_name }} {{ row.last_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-gray-500 font-light text-sm">{{ row.phone_number }}</td>
+                                    <td class="text-right text-gray-600">{{ row.total_orders }}</td>
+                                    <td class="text-right font-serif font-semibold text-brand-dark">
+                                        {{ '{:,.0f}'.format(row.total_spent).replace(',', ' ') }}
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="text-[10px] bg-brand-gold/20 text-brand-accent px-2 py-1 uppercase tracking-wider font-semibold">VIP</span>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="6" class="text-center text-gray-400 py-8 font-light italic">VIP-клієнтів не виявлено</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== ВКЛАДКА 5: СКЛАД ====== -->
+            <div id="panel-inventory" class="tab-panel">
+                <div class="bg-brand-light border border-brand-gray shadow-sm mb-6">
+                    <div class="p-6 border-b border-brand-gray bg-white/50 flex items-start justify-between">
+                        <div>
+                            <h3 class="font-serif text-xl text-brand-dark">Управління складом</h3>
+                            <p class="text-xs text-brand-accent mt-1 font-light">Залишок матеріалів після списання на виконані замовлення</p>
+                        </div>
+                        <span class="text-[10px] bg-brand-gold/20 text-brand-accent px-3 py-1 uppercase tracking-widest font-semibold">SQL: COALESCE + LEFT JOIN</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="report-table w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th>Артикул (SKU)</th>
+                                    <th>Матеріал</th>
+                                    <th class="text-right">На складі</th>
+                                    <th class="text-right">Витрачено</th>
+                                    <th class="text-right">Доступно</th>
+                                    <th class="text-center">Стан</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in inventory_report %}
+                                <tr>
+                                    <td class="font-mono text-xs text-gray-400">{{ row.sku }}</td>
+                                    <td class="font-medium text-brand-dark">{{ row.material_name }}</td>
+                                    <td class="text-right text-gray-600">{{ row.current_stock }} {{ row.unit }}</td>
+                                    <td class="text-right text-gray-500">{{ row.total_used }} {{ row.unit }}</td>
+                                    <td class="text-right font-semibold
+                                        {% if row.available < 3 %}text-red-600
+                                        {% elif row.available < 10 %}text-amber-600
+                                        {% else %}text-green-600{% endif %}">
+                                        {{ row.available }} {{ row.unit }}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if row.available < 3 %}
+                                            <span class="text-[10px] bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded uppercase tracking-wider font-semibold">Критично</span>
+                                        {% elif row.available < 10 %}
+                                            <span class="text-[10px] bg-amber-50 text-amber-600 border border-amber-200 px-2 py-1 rounded uppercase tracking-wider font-semibold">Мало</span>
+                                        {% else %}
+                                            <span class="text-[10px] bg-green-50 text-green-600 border border-green-200 px-2 py-1 rounded uppercase tracking-wider font-semibold">В нормі</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="6" class="text-center text-gray-400 py-8 font-light italic">Дані складу відсутні</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /overflow-y-auto -->
+    </main><!-- /main -->
+
+    <script>
+        lucide.createIcons();
+
+        // ==========================================
+        // ПЕРЕМИКАННЯ ВКЛАДОК
+        // ==========================================
+        function switchTab(name) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active-tab', 'border-brand-gold', 'text-brand-dark');
+                b.classList.add('border-transparent', 'text-gray-400');
+            });
+            document.getElementById('panel-' + name).classList.add('active');
+            const btn = document.getElementById('tab-' + name);
+            btn.classList.add('active-tab', 'border-brand-gold', 'text-brand-dark');
+            btn.classList.remove('border-transparent', 'text-gray-400');
+        }
+
+        // ==========================================
+        // ГРАФІК ABC (вкладка «Послуги»)
+        // ==========================================
+        const ctxSvc = document.getElementById('servicesChart');
+        if (ctxSvc) {
+            const labels = {{ services_report | map(attribute='service_name') | list | tojson }};
+            const values = {{ services_report | map(attribute='total_revenue') | list | tojson }};
+
+            // Кольори ABC: перші ~20% — зелені, наступні ~30% — жовті, решта — червоні
+            const total = labels.length;
+            const colors = labels.map((_, i) => {
+                if (i < Math.ceil(total * 0.2))      return 'rgba(16, 185, 129, 0.7)';
+                else if (i < Math.ceil(total * 0.5)) return 'rgba(245, 158, 11, 0.7)';
+                else                                  return 'rgba(239, 68, 68, 0.55)';
+            });
+
+            new Chart(ctxSvc.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Дохід (₴)',
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: colors.map(c => c.replace('0.7', '1').replace('0.55', '0.8')),
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ' ' + ctx.raw.toLocaleString('uk-UA') + ' ₴'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(229,224,216,0.6)' },
+                            ticks: {
+                                font: { family: 'Inter', size: 11 },
+                                color: '#8E7B61',
+                                callback: v => v.toLocaleString('uk-UA') + ' ₴'
+                            }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, color: '#1A1A1A', maxRotation: 0 }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
