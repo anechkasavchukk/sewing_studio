@@ -358,29 +358,31 @@
                 </div>
 
                 <div class="lg:w-2/3 bg-brand-gray/20 p-8 lg:p-12 relative overflow-hidden">
-                    <i data-lucide="mail" class="absolute -bottom-10 -right-10 w-64 h-64 text-white pointer-events-none opacity-50"></i>
-                    <h3 class="font-serif text-3xl mb-2 relative z-10">Оформлення заявки / Консультація</h3>
-                    <p class="text-gray-500 font-light mb-8 relative z-10">Залиште свої контакти, і наш адміністратор зв'яжеться з вами протягом 15 хвилин.</p>
-                    
-                    <form class="space-y-6 relative z-10">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Ваше ім'я</label>
-                                <input type="text" class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm" placeholder="Анна">
-                            </div>
-                            <div>
-                                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Номер телефону</label>
-                                <input type="tel" class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm" placeholder="+38 (0--) --- -- --">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Коментар або питання</label>
-                            <textarea id="contactMessage" rows="3" class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm resize-none" placeholder="Хочу перешити старий піджак..."></textarea>
-                        </div>
-                        <button type="button" class="bg-brand-dark text-white px-8 py-4 text-sm uppercase tracking-widest hover:bg-brand-gold transition-colors w-full md:w-auto shadow-lg">
-                            Надіслати запит
-                        </button>
-                    </form>
+    <i data-lucide="mail" class="absolute -bottom-10 -right-10 w-64 h-64 text-white pointer-events-none opacity-50"></i>
+    <h3 class="font-serif text-3xl mb-2 relative z-10">Оформлення заявки / Консультація</h3>
+    <p class="text-gray-500 font-light mb-8 relative z-10">Залиште свої контакти, і наш адміністратор зв'яжеться з вами протягом 15 хвилин.</p>
+    
+    <form action="/submit_form" method="POST" class="space-y-6 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Ваше ім'я</label>
+                <input type="text" name="first_name" required class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm" placeholder="Олена">
+            </div>
+            <div>
+                <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Номер телефону</label>
+                <input type="tel" name="phone_number" required class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm" placeholder="+380...">
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Коментар або питання</label>
+            <textarea id="contactMessage" name="comment" rows="3" required class="w-full p-4 border border-white bg-white focus:outline-none focus:border-brand-gold transition-colors shadow-sm resize-none" placeholder="Хочу перешити старий піджак..."></textarea>
+        </div>
+        
+        <button type="submit" class="bg-black text-white px-8 py-4 text-sm tracking-widest uppercase hover:bg-gray-800 transition-colors shadow-sm">
+            НАДІСЛАТИ ЗАПИТ
+        </button>
+    </form>
+</div>
                 </div>
             </div>
         </div>
@@ -542,5 +544,17 @@
         // Ініціалізація розрахунку при завантаженні
         calculatePrice();
     </script>
+    <script>
+    // Перевіряємо, чи є в адресі сайту '?status=success'
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'success') {
+        
+        // Показуємо найпростіше віконце браузера
+        alert("Ваша заявка успішно відправлена! Ми зв'яжемося з вами найближчим часом.");
+        
+        // Стирання '?status=success' з адреси, щоб віконце не вискакувало знову при оновленні сторінки
+        window.history.replaceState(null, null, window.location.pathname);
+    }
+</script>
 </body>
 </html>

@@ -3,7 +3,7 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, s
 import mysql.connector
 from datetime import datetime
 from dotenv import load_dotenv
-
+from datetime import date 
 # Завантажуємо приховані змінні з файлу .env
 load_dotenv()
 
@@ -350,7 +350,7 @@ def api_add_customer():
     data = request.get_json()
     
     first_name = data.get('first_name')
-    last_name = data.get('last_name', '') # Прізвище може бути порожнім
+    last_name = data.get('last_name', '') 
     phone = data.get('phone_number')
     reg_date = datetime.now().strftime('%Y-%m-%d')
     
@@ -374,6 +374,56 @@ def api_add_customer():
     finally:
         if 'cursor' in locals(): cursor.close()
         if 'conn' in locals() and conn.is_connected(): conn.close()
+@app.route('/submit_form', methods=['POST'])
+def submit_form():
+    name = request.form.get('first_name')
+    phone = request.form.get('phone_number')
+    comment = request.form.get('comment')
+    current_date = date.today()
+
+    # Створюємо підключення за твоїм стандартом
+    connection = mysql.connector.connect(**db_config)
+    cursor = connection.cursor(dictionary=True)
+
+    # 1. Перевіряємо, чи є клієнт за номером телефону
+    cursor.execute("SELECT customer_id FROM customer WHERE phone_number = %s", (phone,))
+    existing_customer = cursor.fetchone()
+
+    if existing_customer:
+        customer_id = existing_customer['customer_id']
+    else:
+        # Створюємо нового клієнта
+        cursor.execute("""
+            INSERT INTO customer (first_name, last_name, phone_number, registration_date)
+            VALUES (%s, '', %s, %s)
+        """, (name, phone, current_date))
+        customer_id = cursor.lastrowid
+
+    # 2. Створюємо замовлення (без деталей, лише шапка)
+    cursor.execute("""
+        INSERT INTO orders (customer_id, order_date, status)
+        VALUES (%s, %s, 'New')
+    """, (customer_id, current_date))
+    
+    # Отримуємо ID щойно створеного замовлення, щоб прив'язати до нього деталі
+    order_id = cursor.lastrowid
+
+    default_service_id = 8 
+    
+    cursor.execute("""
+        INSERT INTO order_items (order_id, service_id, quantity, comments)
+        VALUES (%s, %s, 1, %s)
+    """, (order_id, default_service_id, comment))
+
+    # ЗБЕРІГАЄМО ЗМІНИ через connection, а не db!
+    connection.commit()
+    
+    # Закриваємо курсор і обов'язково саме з'єднання
+    cursor.close()
+    connection.close()
+
+    # Повертаємо користувача на головну сторінку
+    return redirect('/?status=success')
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)
